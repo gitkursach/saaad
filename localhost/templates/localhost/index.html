@@ -1,0 +1,55 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+<h1 align="center">Ты авторизован!</h1>
+<p>Lorem ipsum dolor sit amet consectetur, adipisicing, elit. Similique, minus. Necessitatibus, expedita. Itaque eveniet, officia natus! Nostrum assumenda distinctio minima, dolores nam. Ratione aperiam, quia sequi sed blanditiis voluptate laborum.
+Dicta molestias repudiandae sint, ipsum nemo, saepe ab voluptatibus, velit ducimus, officiis soluta unde laboriosam iure! Nemo perspiciatis quidem minus aspernatur temporibus ab dignissimos optio, reiciendis sit quas saepe explicabo.
+Repudiandae error eveniet sed vitae animi consectetur illum laudantium. Sit illo exercitationem ut aspernatur sunt temporibus veniam maiores ullam! Non eos nostrum delectus neque, magni sit provident nobis sint. Aliquid?
+Explicabo porro temporibus tenetur ut assumenda asperiores impedit dicta perferendis, harum possimus quibusdam veniam maiores exercitationem eum sunt nam reprehenderit dolores aliquid omnis alias quasi optio quos placeat, sit. Commodi?
+Blanditiis iste aperiam ipsa facilis neque inventore veritatis deserunt tenetur, laboriosam, assumenda expedita labore illo ratione sint? Consequuntur, amet molestias itaque, quaerat saepe voluptas et. Dolores reprehenderit consequuntur, iusto recusandae!
+Molestiae eveniet consequuntur officiis nemo impedit corrupti assumenda sequi, laborum expedita explicabo dolor quae ratione in atque sed rerum voluptatibus eligendi sunt ex consectetur sint ad sit corporis! Expedita, aliquid!
+Suscipit doloribus odit tempore amet corporis porro consequatur a quo debitis incidunt dolore nemo aperiam illo soluta alias vel voluptas consectetur minima, fugiat? Maxime deleniti reiciendis possimus iste, autem deserunt.
+Quod et nihil id ullam quos incidunt est iure tenetur fugit, libero quibusdam distinctio eum beatae aperiam alias illum esse natus harum tempore dignissimos reprehenderit voluptas fugiat. Quod, maiores. Vel.
+Praesentium, accusamus voluptate recusandae magnam laborum excepturi dolorem, distinctio pariatur veniam architecto porro consectetur quae aliquid cumque vitae quo, fuga voluptatum fugiat beatae, iure. Voluptas consequatur quisquam libero quasi porro.
+Rem nobis, voluptatum nostrum illum deserunt incidunt sunt ducimus voluptatem fugiat eos, necessitatibus voluptas numquam cum iure nemo. Rem modi officia atque, blanditiis placeat accusantium voluptatibus molestias sunt commodi dolores.</p>
+
+{% else %}
+
+<h1 align="center">Ты не авторизован!</h1>
+<p>Lorem ipsum dolor sit amet consectetur, adipisicing, elit. Similique, minus. Necessitatibus, expedita. Itaque eveniet, officia natus! Nostrum assumenda distinctio minima, dolores nam. Ratione aperiam, quia sequi sed blanditiis voluptate laborum.
+Dicta molestias repudiandae sint, ipsum nemo, saepe ab voluptatibus, velit ducimus, officiis soluta unde laboriosam iure! Nemo perspiciatis quidem minus aspernatur temporibus ab dignissimos optio, reiciendis sit quas saepe explicabo.
+Repudiandae error eveniet sed vitae animi consectetur illum laudantium. Sit illo exercitationem ut aspernatur sunt temporibus veniam maiores ullam! Non eos nostrum delectus neque, magni sit provident nobis sint. Aliquid?
+Explicabo porro temporibus tenetur ut assumenda asperiores impedit dicta perferendis, harum possimus quibusdam veniam maiores exercitationem eum sunt nam reprehenderit dolores aliquid omnis alias quasi optio quos placeat, sit. Commodi?
+Blanditiis iste aperiam ipsa facilis neque inventore veritatis deserunt tenetur, laboriosam, assumenda expedita labore illo ratione sint? Consequuntur, amet molestias itaque, quaerat saepe voluptas et. Dolores reprehenderit consequuntur, iusto recusandae!
+Molestiae eveniet consequuntur officiis nemo impedit corrupti assumenda sequi, laborum expedita explicabo dolor quae ratione in atque sed rerum voluptatibus eligendi sunt ex consectetur sint ad sit corporis! Expedita, aliquid!
+Suscipit doloribus odit tempore amet corporis porro consequatur a quo debitis incidunt dolore nemo aperiam illo soluta alias vel voluptas consectetur minima, fugiat? Maxime deleniti reiciendis possimus iste, autem deserunt.
+Quod et nihil id ullam quos incidunt est iure tenetur fugit, libero quibusdam distinctio eum beatae aperiam alias illum esse natus harum tempore dignissimos reprehenderit voluptas fugiat. Quod, maiores. Vel.
+Praesentium, accusamus voluptate recusandae magnam laborum excepturi dolorem, distinctio pariatur veniam architecto porro consectetur quae aliquid cumque vitae quo, fuga voluptatum fugiat beatae, iure. Voluptas consequatur quisquam libero quasi porro.
+Rem nobis, voluptatum nostrum illum deserunt incidunt sunt ducimus voluptatem fugiat eos, necessitatibus voluptas numquam cum iure nemo. Rem modi officia atque, blanditiis placeat accusantium voluptatibus molestias sunt commodi dolores.</p>
+
+{% endif %}
+		
+
+
+    {#    <div id="serch_form" style="overflow: hidden;">#}
+{#        <div id = "serch_text">ПОИСК</div>#}
+{#        <input id ="imput_serch_form" type="text" placeholder="Введите поисковый запроc">#}
+{#    </div>#}
+{#    <ul>#}
+{#    {% for p in posts %}#}
+{#    <li>#}
+{#    <p class="first">Категория: {{ p.cat }}</p>#}
+{#        <p class="last">Дата: {{ p.time_update|date:"d-m-Y H.i.s" }}</p>#}
+{#        {% if p.photo %}#}
+{#        <p><img class ="img-atricle-left thumb" src="{{ p.photo.url }}"></p>#}
+{#        {% endif %}#}
+{#        <h2>{{ p.title }}</h2>#}
+{#        <p>{{ p.content }}</p>#}
+{#        <a href ="{{  p.get_absolute_url }}">ПЕРЕЙТИ</a>#}
+{#        <hr>#}
+{#    </li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+
+{% endblock %}

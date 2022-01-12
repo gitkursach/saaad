@@ -1,0 +1,25 @@
+1)django-admin startproject <имя домена>  -
+
+2)python manage.py runserver
+
+3)python manage.py startapp <name> - приложение
+
+4)python manage.py makemigrations - создать миграции
+
+5)python manage.py migrate - выполнить миграции
+
+6)python manage.py shell - вход в orm django
+    6.0)from women.models import Women - import чтоб все работало
+    6.1)Women.objects.create(title = 'Кира Найти', content='Биографя 2') - создание записи в бд
+    6.2)Women.objects.all() - просмотр записей
+            def __str__(self):
+        return self.title      -добавить в models чтобы видеть записи
+    6.3)wu = Women.objects.get(pk=2) - обновление записи
+            wu.title = 'Марго Робби'
+            wu.content = 'БиографияU'
+            wu.save()
+    6.4)wd = Women.objects.filter(pk__gte=4) - удаление записи
+        wd.delete()
+    6.5)from django.db import connection - импорт для sql
+        connection.queries - просмотр sql запросов
+7)python manage.py createsuperuser - создать админа

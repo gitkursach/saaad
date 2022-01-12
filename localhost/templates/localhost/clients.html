@@ -1,0 +1,83 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated and request.user.is_clients == True  %}
+
+
+
+<div class="row align-items-center">
+    <div class="col text-center fields fields content">
+        <div>
+        <h1 class="tit">{{ title }}</h1>
+        <form action = "{% url 'clients' %}" method="post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for f in form %}
+            <p><label class="form-label text" for = "{{ f.id_for_label }}">{{ f.label }}:</label><br>
+            <span>{{ f }}</span> </p>
+            <div class ="form-error"> {{ f.errors }}</div>
+            {% endfor %}
+
+            <button class="btn btn-outline-dark btn-md" type="submit">Добавить</button></div>
+        </form>
+    </div>
+</div>
+</div>
+
+{#    <!-- {% if client.count > 0 %}#}
+{#    <h2>Список клиентов компании</h2>#}
+{##}
+{#        <thead><th>Фамилия</th><th>Имя</th><th>Год рождения</th><th>н.Телефона</th><th>Login</th><th></th></thead>#}
+{#    {% for c in client %}#}
+{#             {% if  c.user_client == request.user and c.user_client.tree_id == request.user.tree_id or request.user.level == 0%}#}
+{#             <tr>#}
+{#                <td>{{ c.last_name}}</td>#}
+{#                <td>{{ c.first_name }}</td>#}
+{#                <td>{{ c.year }}</td>#}
+{#                <td>{{ c.phone }}</td>#}
+{#                <td>{{ c.user_client }}</td>#}
+{#             <td><a href="edit-client/{{c.id}}">Изменить</a> | <a href="delete/{{c.id}}">Удалить</a> </td>#}
+{#            </tr>#}
+{#        {% endif %}#}
+{#{% endfor %}#}
+{#    {% endif %} #}
+{#    #}
+{##}
+{#<div class="table-responsive mainTable">#}
+{#        <table class ="table table-hover table-striped align-middle">#}
+{##}
+{#-->#}
+<div class="row align-items-center">
+    <div class="col text-center">    
+{% if client.count > 0 %}
+    <h2 class="chtitle">Список клиентов компании</h2>
+        <div class="table-responsive mainTable">
+        <table class ="table table-hover table-striped align-middle">
+        <thead><th>Фамилия</th><th>Имя</th><th>Год рождения</th><th>н.Телефона</th><th>Номер карты</th><th>Login</th><th></th></thead>
+    {% for c in client %}
+             {% if  c.user_client == request.user and c.user_client.tree_id == request.user.tree_id or request.user.level == 0%}
+             {% if c is not None  %}
+                   <tr>
+                <td>{{ c.operation_cards.client_cards.last_name }}</td>
+                <td>{{ c.operation_cards.client_cards.first_name }}</td>
+                <td>{{ c.operation_cards.client_cards.year|date:"d.m.Y" }}</td>
+                <td>{{ c.operation_cards.client_cards.phone }}</td>
+                  <td>{{ c.operation_cards.number }}</td>
+                <td>{{ c.operation_cards.client_cards.user_client }}</td>
+             <td><a class="workerLinks" href="edit-client/{{c.id}}">Изменить</a> | <a class="workerLinks" href="delete/{{c.id}}">Удалить</a> </td>
+            </tr>
+                 {% else %}
+                 123
+                  {% endif %}
+
+        {% endif %}
+{% endfor %}
+    {% endif %}
+    </table>
+    </div>
+    </div>
+    </div>
+
+{% endif %}
+{% endblock %}

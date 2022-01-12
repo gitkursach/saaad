@@ -1,0 +1,63 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+    {% if request.user.is_authenticated and request.user.is_workers == True %}
+
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <h3>Добавление сотрудника</h3>
+    {{ get_absolute_url }}
+    <div class="row">
+        <div class="col-sm">
+            <form action = "{% url 'adduser' %}" method="post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+            
+                    <p><label class="form-label text authText" for = "{{ f.id_for_label }}">{{ f.label }}:</label>
+                    <p>{{ f }}</p>
+                    <div class ="form-error"> {{ f.errors }}</div>
+
+                    {% endfor %}
+                    <button class="btn btn-outline-dark btn-sm" type="submit">Добавить</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <a href="{% url 'addposts' %}"><button class="btn btn-outline-dark btn-sm" type="submit">Добавить Должность</button></a><br>
+            <a href="{% url 'workers' %}"><button class="btn btn-outline-dark btn-sm" type="submit">Назад</button></a>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<!-- <div class="row align-items-center">
+    <div class="col-sm">
+        <h1 class="tit">{{ title }}</h1>
+        {{ get_absolute_url }}
+        <form action = "{% url 'adduser' %}" method="post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+            <p><label class="form-label text" for = "{{ f.id_for_label }}">{{ f.label }}:</label>
+            {{ f }} </p>
+            <div class ="form-error"> {{ f.errors }}</div>
+            {% endfor %}
+            <button class="btn btn-outline-dark btn-sm" type="submit">Добавить</button>
+        </form>
+        <a href="{% url 'addposts' %}"><button class="btn btn-outline-dark btn-sm" type="submit">Добавить Должность</button></a><br>
+        <a href="{% url 'workers' %}"><button class="btn btn-outline-dark btn-sm" type="submit">Назад</button></a>
+    </div>        
+</div>
+</div> -->
+
+   
+    {% else %}
+
+    {% endif %}
+
+{% endblock %}

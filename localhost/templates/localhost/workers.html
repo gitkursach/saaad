@@ -1,0 +1,177 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+ {% if request.user.is_authenticated and request.user.is_workers == True %}
+    {% if usersdata.count > 0 %}
+    <!-- <div class="row align-items-center">
+        <div class="col text-center">
+            <h2 class="htitle">Список действующих сотрудников</h2>
+        <form  action="{% url 'workers' %}" method='GET'  >
+
+
+        <br>
+       Поиск по логину <input type="text" name="search_login">
+            <br>
+        Поиск по ФИО <input type="text" name="search_FIO">
+            <br>
+            Поиск по номеру <input type="tel" name="search_phone">
+            <br>
+        </form>  -->
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+<div class="row">
+    <div class="col-sm">
+        <form action="{% url 'workers' %}" method="GET">
+         <p>
+             Вариант №9.    Реализовать поиск всех пользователей, у которых имеются файлы в определенном диапазоне дат загрузки файлов;</p>
+         <p> от - до</p>
+           <p> <input id = "first" type="date" name="search_size_min"> -
+               <input id = "second" type="date" name="search_size_max"></p>
+              <button>Найти</button>
+         </p>
+     </form>
+    </div>
+</div>
+</div> 
+
+<div class="row controls align-items-center">
+            <div class="col-sm-4" data-aos="fade-right" data-aos-duration="1000">
+                <a href="{% url 'adduser' %}"><button class="printAll" type="button">Добавить сотрудника</button></a>
+            </div>
+            <div class="col-sm-4" data-aos="fade-right" data-aos-duration="1000">
+                <a href="{% url 'output' %}"><button class="printAll" type="button">Задания по вариантам</button></a>
+            </div>
+            <div class="col-sm-4 files" data-aos="fade-left" data-aos-duration="1000">
+               <a href="{% url 'images' %}"><button class="printAll" type="button">База изображений</button></a>
+            </div>
+</div>
+
+<div class="row tableRow">
+    <div class="col-sm tableContent" data-aos="zoom-in" data-aos-duration="1000">
+        <div class="table-responsive">
+        <table class="table mainTable table-hover table-striped align-middle">
+        <thead>
+            <th>Login</th>
+                        <th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Дата рождения</th>
+                        <th>Должность</th>
+                        <th>Email</th>
+                        <th>н.Телефона</th>
+                        <th>Упр. Изображениями</th>
+                        <th>Упр. Сотрудниками</th>
+                        <th>Упр. Документами</th>
+                        <th>Время создания</th>
+                        <th>Время изменения</th>
+                        <th>Last_login</th>
+                        <th>Закреплен за</th>
+                        <th></th>       
+            </thead>
+            {% if request.user.is_workers == True and request.user.tree_id == request.user.parent.tree_id or request.user.level == 0 %}
+
+            {% for userdata in usersdata %}
+            {% if  userdata.tree_id == request.user.tree_id  %}
+            <tbody>
+                <tr class="table-dark">
+                    <th>{{ userdata.username}}</th>
+                    <td>{{ userdata.last_name }}</td>
+                    <td>{{ userdata.first_name }}</td>
+                    <td>{{ userdata.patronymic }}</td>
+                    <td>{{ userdata.year|date:"d.m.Y" }}</td>
+                    <td>{{ userdata.posts}}</td>
+                    <td>{{ userdata.email}}</td>
+                    <td>{{ userdata.phone}}</td>
+                    <td>{% if userdata.is_images == True %}✔{% else %}✖{% endif %}</td>
+                    <td>{% if userdata.is_workers == True %}✔{% else %}✖{% endif %}</td>
+                    <td>{% if userdata.is_document == True %}✔{% else %}✖{% endif %}</td>
+                    <td>{{ userdata.time_create|date:"d.m.Y, H:i" }}</td>
+                    <td>{{ userdata.time_update|date:"d.m.Y, H:i" }}</td>
+                    <td>{{ userdata.last_login|date:"d.m.Y, H:i" }}</td>
+                    {% if  userdata.parent == None %}<th>Создатель отдела</th>{% else %}<th>{{ userdata.parent}}</th> {% endif %}
+                    <td>{% if request.user.level == 0 or userdata.parent.level >= request.user.pk or request.user.level <= userdata.parent.level or request.user.pk == userdata.pk %}<a class="workerLinks typeButton" href="edit-workers/{{userdata.id}}">Изменить</a> {% if request.user.pk != userdata.pk %}<a class="workerLinks typeButton" href="delete/{{userdata.id}}">Удалить</a> {% endif %}{% endif %}</td>
+                </tr>
+                    </tbody>
+                    {% endif %}
+                    {% endfor %}    
+                </table>
+                </div>
+    </div>
+</div>
+
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="row controls align-items-center">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+            <form action="{% url 'workers' %}" method="GET">
+                <a href="?"><button type="button">Сбросить сортировку</button></a>
+            </form>
+        </div>
+    </div>
+    <div class="row controls align-items-center">
+        <div class="col-sm">
+            <h2 class="authTextHeader">ПОИСК</h2>
+            <form action="{% url 'workers' %}" method="GET">
+                <div class="authText">Поиск по логину</div> <input type="text" name="search_login">
+            </form>
+            <div class="authText authTextHeader">Поиск по ФИО</div>
+            <form action="{% url 'workers' %}" method="GET">
+                <div class="authText">Фамилия</div>
+                <input type="text" name="last_name">
+            </form>
+            <form action="{% url 'workers' %}" method="GET">
+                <div class="authText">Имя</div>
+                <input type="text" name="first_name">
+            </form>
+            <form  action="{% url 'workers' %}" method='GET'  >
+             <div class="authText">Отчество</div> 
+             <input type="text" name="patronymic">
+            </form>
+            <form action="{% url 'workers' %}" method="GET">
+                <div class="authText authTextHeader">Поиск по номеру </div><input type="tel" name="search_phone">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+        {% endif %}
+        {% else %}
+
+        {% endif %}
+     {% else %}
+    <p>У вас нет доступа к сотрудникам :(</p>
+    {% endif %}
+
+{% endblock %}
+
+<!-- <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table> -->

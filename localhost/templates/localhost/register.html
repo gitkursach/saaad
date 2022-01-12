@@ -1,0 +1,28 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+	<h3>Регистрация</h3>
+	<div class="row">
+		<div class="col-sm">
+			<form method="post">
+		    {% csrf_token %}
+
+			{% for f in form %}
+			
+					<p><label class="form-label text authText" for="{{ f.id_for_label }}">{{f.label}}: </label><br>{{ f }}</p>
+					<div class="form-error erors">{{ f.errors }}</div>
+
+					{% endfor %}
+					<button type="submit" class="btn btn-outline-dark btn-sm">Регистрация</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm">
+			<a href="visitor/"><button type="submit" class="btn btn-outline-dark btn-sm">Я гость</button></a>
+		</div>
+	</div>
+	
+</div>
+{% endblock %}

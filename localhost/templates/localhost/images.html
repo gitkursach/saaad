@@ -1,0 +1,232 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+
+<div class="row tableRow align-items-center" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="col-sm tableContent">
+        <div class="table-responsive">
+            <table class="table table-dark mainTable table-hover table-striped align-middle">
+                <thead>
+                    <th><ahref="?">Изображение</a></th>
+                        <th><a class="typeButton" href="?name=1">Название</a></th>
+                        <th> <a class="typeButton" href="?format=1">Формат</a> </th>
+                        <th><a class="typeButton" href="?size=1">Размер</a> </th>
+                        <th><a class="typeButton" href="?time_create=1">Время создания</a></th>
+{#                        <th>Время изменения</th>#}
+                        <th>Закреплен за</th>
+                        <th></th>
+                </thead>
+                {% for file in files%}
+                    <tbody>
+                        <tr>
+                        <th><img src = "{{ file.images.url }} " width = "100px"><a class="typeButton typeButtonIMG" href="download_img/{{ file.pk }}" download="download_img/{{ file.pk }}"><p class="typeButton typeButtonIMG">Скачать изображение</p></a></td>
+                        <td>{{ file.title|truncatechars:10}}</td>
+                        <td> {{ file.images.temp  }}</td>
+                        <td>{{ file.filesize|filesizeformat }}</td>
+
+                        <td>{{ file.time_create|date:"d.m.Y, H:i" }}</td>
+{#                      <td>{{ file.time_update|date:"d.m.Y, H:i" }}</td>#}
+                        <td>{{ file.user_images }}</td>
+                        <td><a class="typeButton" href="delite/img/{{ file.id }}" ><button class="typeButton" type="submit">Удалить </button></a></td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="row">
+        <div class="col-sm">
+            <h2>Добавление изображения</h2><br>
+            <form enctype='multipart/form-data' action="{% url 'images' %}" method='POST'  >
+                {% csrf_token %}
+
+                <input type="text" name="title" placeholder="Имя в базе">
+                <input type="file" name="images"><br>
+                <button type = "submit">Добавить</button><br>
+                <p>{{ errors_form }}{{ errors_count }}</p>
+
+
+                <h1>{{ successfully_form }}</h1>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="row controls align-items-center">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+            <form action="{% url 'workers' %}" method="GET">
+                <a href="?"><button type="button">Сбросить сортировку</button></a>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <form  action="{% url 'images' %}" method='GET'  >
+                <span class="authText authTextHeader">Поиск по названию</span><br> <input type="text" name="search_name">
+            </form>
+            <form  action="{% url 'images' %}" method='GET'  >
+                <span class="authText authTextHeader">Поиск по формату</span><br>  <span class="authText">gif</span><br><input type="radio" name="search_format" value=".gif"><br> <span class="authText">jpeg</span><br><input type="radio" name="search_format" value=".jpeg"><br> <span class="authText">bmp</span><br><input type="radio" name="search_format" value=".bmp"><br> <span class="authText">png</span><br><input type="radio" name="search_format" value=".png"><br>
+                <button>Найти</button>
+            </form>
+            <form  action="{% url 'images' %}" method='GET'  >
+                <span class="authText authTextHeader">Поиск по размеру</span><br>
+                <input type="number" id="first" name='search_size_min'>
+                <span>-</span>
+                <input type="number" id="second" name='search_size_max'><br>
+                <button>Найти</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<!-- <div class="row">
+    <div class="col-sm tableContent" data-aos="zoom-in" data-aos-duration="1000">
+        <div class="table-responsive">
+        <table class="table mainTable table-hover table-striped align-middle">
+        <thead>
+            <th><a href="?">Изображение</a></th>
+            <th><a href="?name=1">Название</a></th>
+            <th><a href="?format=1">Формат</a></th>
+            <th><a href="?size=1">Размер</a></th>
+            <th><a href="?time_create=1">Время создания</a></th>
+            <th>Закреплен за</th>
+            <th></th>               
+            </thead>
+
+            {% for file in files%}
+
+            <tbody>
+                <tr class="table-dark">
+                    <th><img src = "{{ file.images.url }} " width = "100px"><a href="download_img/{{ file.pk }}" download="download_img/{{ file.pk }}"><p>скачать бесплатно без смс и регистрации СРОЧНО!!!</p></a></th>
+                    <td>{{ file.title|truncatechars:10}}</td>
+                    <td>{{ file.images.temp  }}</td>
+                    <td>{{ file.images.size }}kb</td>
+                    <td>{{ file.time_create|date:"d.m.Y, H:i" }}</td>
+                    <td>{{ file.user_images }}</td>
+                    <td>{% if request.user.level == 0 or userdata.parent.level >= request.user.pk or request.user.level <= userdata.parent.level or request.user.pk == userdata.pk %}<a class="typeButton" href="delite/img/{{ file.id }}" ><button type="submit">Удалить </button></a></td>
+                </tr>
+                    </tbody>
+                    {% endif %}
+                    {% endfor %}    
+                </table>
+                </div>
+    </div>
+</div>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <form enctype='multipart/form-data' action="{% url 'images' %}" method='POST'  >
+
+
+    {% csrf_token %}
+        <input type="text" name="title">
+    <input type="file" name="images">
+         <input type = "submit" value = "Добавить">
+<p>{{ errors_form }}{{ errors_count }}</p>
+
+
+<h1>{{ successfully_form }}</h1>
+
+
+</form>
+
+
+    {{ extension }}
+<div class="row align-items-center">
+        <div class="col text-center">
+            <h2 class="htitle">Файлы изображений</h2>
+        <form  action="{% url 'images' %}" method='GET'  >
+
+<br>
+        Поиск по названию <input type="text" name="search_name">
+            <br><br>
+       Поиск по формат  gif<input type="radio" name="search_format"> jpeg<input type="radio" name="search_format"> bmp<input type="radio" name="search_format"> png<input type="radio" name="search_format">
+            <br><br>
+       <p> Поиск по размеру <span id="rangeValue">0</span>kb
+           <br>
+        <Input class="range" step="100" type="range" name="search_size" value="0" min="0" max="99999999" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)">
+       </p>
+           <br>
+           от - до
+           <p> <input type="number" name=""> -   <input type="number" name=""></p>
+
+</form>
+<script type="text/javascript">
+        function rangeSlide(value) {
+            document.getElementById('rangeValue').innerHTML = value;
+        }
+    </script>
+            <p class="text-right"><a href="download_all/{{ request.user.id }}" download="download_all/{{ request.user.id }}"><button>СКАЧАТЬ ВСЕ</button></a></p>
+
+                <div class="table-responsive mainTable">
+                <table class="table table-hover table-striped align-middle">
+                    <thead>
+
+                    <th><a href="?">Изображение</a></th>
+                        <th><a href="?name=1">Название</a></th>
+                        <th> <a href="?format=1">Формат</a> </th>
+                        <th><a href="?size=1">Размер</a> </th>
+                        <th><a href="?time_create=1">Время создания</a></th>
+{#                        <th>Время изменения</th>#}
+                        <th>Закреплен за</th>
+                        <th></th>
+
+                    </thead>
+
+
+                    {% for file in files%}
+
+                    <tbody>
+                        <tr>
+                            <th><img src = "{{ file.images.url }} " width = "100px"><a href="download_img/{{ file.pk }}" download="download_img/{{ file.pk }}"><p>скачать бесплатно без смс и регистрации СРОЧНО!!!</p></a></td>
+                            <td>{{ file.title|truncatechars:10}}</td>
+                            <td> {{ file.images.temp  }}</td>
+                            <td>{{ file.images.size }}kb</td>
+
+                            <td>{{ file.time_create|date:"d.m.Y, H:i" }}</td>
+{#                            <td>{{ file.time_update|date:"d.m.Y, H:i" }}</td>#}
+                            <td>{{ file.user_images }}</td>
+                            <td><a href="delite/img/{{ file.id }}" ><button type="submit">Удалить </button></a></td>
+
+
+                        </tr>
+                    </tbody>
+
+                    {% endfor %}
+                </table>
+                </div>
+        </div>
+    </div> -->
+{#{% for file in files %}#}
+{#    <p><img src = "{{ file.images.url }} " width = "100px">#}
+{#    <p> {{ file.title }}</p>#}
+{#    <a href="delite/img/{{ file.id }}" ><button type="submit">Удалить </button></a>#}
+{#    </p>#}
+{#{% endfor %}#}
+{% endblock %}

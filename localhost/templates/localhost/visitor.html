@@ -1,0 +1,31 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <div class="row align-items-center">
+	<div class="col text-center fields content">
+<form enctype='multipart/form-data' action="{% url 'visitor' %}" method='POST'  >
+
+
+    {% csrf_token %}
+        <h4 class="authText authTextHeader">Выберите отдел</h4>
+
+  {% for user in users %}
+      {% if user.department %}
+
+        <p>  {{ user.department }}
+     <input type="radio" name="department" value="{{ user.id }}">
+     </p>
+      {% endif %}
+
+  {% endfor %}
+
+<br>
+<br><br>
+
+<a href="{% url 'register' %}"><button type="submit" class="btn btn-outline-dark btn-sm">Регистрация</button></a>
+        </form>
+</div>
+    </div>
+</div>
+{% endblock %}

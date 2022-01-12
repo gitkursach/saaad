@@ -1,0 +1,42 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <h3>Вход</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row-form-error">{{ form.non_field_errors }}</div>
+        <div class="row align-items-center">
+            <div class="col text-center fields fields content">
+        {% for f in form %}
+                <p><label class="form-label text authText" for="{{ f.id_for_label }}">{{ f.label }}:</label><br>{{ f }}</p>
+                <div class="row-form-error">{{ f.errors }}</div>
+                {% endfor %}
+                <button type="submit" id='error' class="btn btn-outline-dark btn-sm">Войти</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
+<!-- 
+    <h1 class="tit">{{ title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="row-form-error">{{ form.non_field_errors }}</div>
+        <div class="row align-items-center">
+            <div class="col text-center fields fields content">
+        {% for f in form %}
+                <p><label class="form-label text" for="{{ f.id_for_label }}">{{ f.label }}:</label><br>{{ f }}</p>
+                <div class="row-form-error">{{ f.errors }}</div>
+                {% endfor %}
+                <button type="submit" id='error' class="btn btn-outline-dark btn-sm">Войти</button>
+            </div>
+        </div>
+    </form> -->
+
+
+
+

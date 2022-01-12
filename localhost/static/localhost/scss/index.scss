@@ -1,0 +1,495 @@
+// SNOW EFFECT
+body {
+  height: 100vh;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  overflow: hidden;
+}
+
+@function random_range($min, $max) {
+  $rand: random();
+  $random_range: $min + floor($rand * (($max - $min) + 1));
+  @return $random_range;
+}
+
+.snow {
+  $total: 200;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+
+  @for $i from 1 through $total {
+    $random-x: random(1000000) * 0.0001vw;
+    $random-offset: random_range(-100000, 100000) * 0.0001vw;
+    $random-x-end: $random-x + $random-offset;
+    $random-x-end-yoyo: $random-x + ($random-offset / 2);
+    $random-yoyo-time: random_range(30000, 80000) / 100000;
+    $random-yoyo-y: $random-yoyo-time * 100vh;
+    $random-scale: random(10000) * 0.0001;
+    $fall-duration: random_range(10, 30) * 1s;
+    $fall-delay: random(30) * -1s;
+
+    &:nth-child(#{$i}) {
+      opacity: random(10000) * 0.0001;
+      transform: translate($random-x, -10px) scale($random-scale);
+      animation: fall-#{$i} $fall-duration $fall-delay linear infinite;
+    }
+
+    @keyframes fall-#{$i} {
+      #{percentage($random-yoyo-time)} {
+        transform: translate($random-x-end, $random-yoyo-y) scale($random-scale);
+      }
+
+      to {
+        transform: translate($random-x-end-yoyo, 100vh) scale($random-scale);
+      }
+    }
+  }
+}
+
+
+
+body {
+	font-family: 'Jost', sans-serif;
+	background: url(../img/bg.png) no-repeat;
+	background-size: cover;
+	margin: 0;
+	padding: 0;
+}
+
+.head {
+	
+	padding-bottom: 25px;
+	padding-top: 25px;
+	text-align: right;
+	h1 {
+		text-align: left;
+		font-family: 'Jost', sans-serif;
+		color: #fff;
+		font-size: 48px;
+		text-shadow: 0 0 0.6rem #03B9AE, 0 0 1.5rem #03B9AE,
+    	-0.2rem 0.1rem 1rem #03B9AE, 0.2rem 0.1rem 1rem #03B9AE,
+    	0 -0.5rem 2rem #03B9AE, 0 0.5rem 3rem #03B9AE;
+  		animation: shine 2s forwards;
+	}
+
+	@keyframes shine {
+  	0% {
+	    color: #0B0B0B;
+	    text-shadow: none;
+  	}
+  	100% {
+    	color: #fff;
+    	text-shadow: 0 0 0.6rem #03B9AE, 0 0 1.5rem #03B9AE,
+     	 -0.2rem 0.1rem 1rem #03B9AE, 0.2rem 0.1rem 1rem #03B9AE,
+      	0 -0.5rem 2rem #03B9AE, 0 0.5rem 3rem #03B9AE;
+  	}
+}
+
+	& button {
+		text-transform: uppercase;
+		font-size: 18px;
+		font-family: 'Jost', sans-serif;
+		border: none;
+		background: none;
+		color: #fff;
+
+		&:first-child {
+			margin-right: 10px;
+		}
+
+		&:hover {
+			transition: .3s;
+			transform: scale(1.1);
+			color: #fff;
+  			text-shadow: 0 0 10px #fff,
+              	0 0 20px #fff, 
+		}
+
+		&:active {
+			transform: scale(1.0);
+			color: #fff;
+  			text-shadow: 0 0 10px #fff,
+              	0 0 20px #fff, 
+            	0 0 30px #fff;
+		}
+	}
+
+}
+
+
+.tableContent {
+	height: 300px;
+	overflow-x: auto;
+
+	&::-webkit-scrollbar {
+	width: 0px;
+	} 
+
+	&::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+	} 
+
+	&::-webkit-scrollbar-thumb {
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+	}
+}
+
+.mainTable {
+	font-size: 18px;
+	font-family: 'Jost', sans-serif;
+	background-color: rgba(0, 0, 0, .8);
+	border: 2px solid #fff;
+	text-align: center;
+
+	& thead {
+		background-color: rgba(255, 255, 255, .1);
+		color: #fff;
+	}
+
+	& tbody {
+		color: #fff;
+	}
+
+	& .typeButton {
+		background: none;
+		border: none;
+		color: #fff;
+
+		&:hover {
+			transform: scale(1.1);
+			transition: .3s;
+			color: #fff;
+  			text-shadow: 0 0 10px #fff,
+              	0 0 20px #fff, 
+		}
+
+		&:active {
+			transform: scale(1.0);
+			color: #fff;
+  			text-shadow: 0 0 10px #fff,
+              	0 0 20px #fff, 
+            	0 0 30px #fff;
+		}
+	}
+}
+
+.controls {
+
+	& .files {
+		text-align: right;
+
+		& button {
+
+			&:nth-child(2) {
+				margin-right: 0;
+			}
+		}
+	}
+
+
+	padding-top: 50px;
+
+	& .printAll {
+		margin-right: 50px;
+		padding: 10px 20px;
+		background-color: #000;
+		font-family: 'Jost', sans-serif;
+		color: #fff;
+		font-size: 24px;
+		border: 2px solid #03B9AE;
+
+		&:hover {
+			border: 2px solid #fff;
+			transform: scale(1.1);
+			transition: .5s;
+			box-shadow:
+			    inset 0 0 60px #3E3E3E,
+			    inset 20px 0 80px #03B9AE,
+			    inset -20px 0 80px #0ff,
+			    inset 20px 0 300px #03B9AE,
+			    inset -20px 0 300px #0ff,
+			    0 0 50px #03B9AE,
+			    // -10px 0 80px #4134D3,
+			    // 10px 0 80px #0ff;
+		}
+
+		&:active {
+			transform: scale(1.0);
+		}
+
+		// &:hover {
+		// 	transform: scale(1.1);
+		// 	transition: .5s;
+		// 	box-shadow:
+		// 	    inset 0 0 60px #000,
+		// 	    inset 20px 0 80px #03B9AE,
+		// 	    inset -20px 0 80px #0ff,
+		// 	    inset 20px 0 300px #03B9AE,
+		// 	    inset -20px 0 300px #0ff,
+		// 	    0 0 50px #fff,
+		// 	    -10px 0 80px #03B9AE,
+		// 	    10px 0 80px #0ff;
+		// }
+
+		// &:active {
+		// 	transform: scale(1.0);
+		// }
+	}
+}
+
+
+// Login/Register Modal
+.loginModalBody {
+
+	border: 1px solid #4134D3; 
+	font-family: 'Jost', sans-serif;
+	background: url(../img/modalBg.png);
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+
+	& h3 {
+		font-size: 48px;
+		margin-bottom: 20px;
+	}
+
+	& input {
+		font-size: 18px;
+		color: #fff;
+		width: 500px;
+		padding: 10px 20px;
+		background-color: rgba(0, 0, 0, .8);
+		border: 2px solid #4134D3;
+		margin-bottom: 40px;
+
+		&:focus {
+			transition: .5s;
+			outline: none;
+			border: 2px dashed #03B9AE;
+			background-color: rgba(0, 0, 0, 1);
+		}
+
+		&::-webkit-input-placeholder {
+			color: rgba(255, 255, 255, .7);
+		}
+
+		&:focus::-webkit-input-placeholder {
+
+			color: transparent
+
+		}
+	}
+
+	& button {
+		margin-top: 5px;
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #fff;
+		padding: 8px 80px;
+		border: 2px solid #4134D3;
+		background-color: #000;
+
+		&:hover {
+			border: 2px solid #fff;
+			transform: scale(1.1);
+			transition: .5s;
+			box-shadow:
+			    inset 0 0 60px #5F5F5F,
+			    inset 20px 0 80px #4134D3,
+			    inset -20px 0 80px #0ff,
+			    inset 20px 0 300px #4134D3,
+			    inset -20px 0 300px #0ff,
+			    0 0 50px #4134D3,
+			    // -10px 0 80px #4134D3,
+			    // 10px 0 80px #0ff;
+		}
+
+		&:active {
+			transform: scale(1.0);
+		}
+	}
+}
+
+// Add File Modal
+.addFileBody {
+	border: 1px solid #4134D3; 
+	font-family: 'Jost', sans-serif;
+	background: url(../img/modalBg.png);
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+
+	& input {
+		background-color: rgba(0, 0, 0, .9);
+		border: 2px solid #4134D3;
+		margin-bottom: 20px;
+	}
+
+	& button {
+		border: 2px solid #4134D3;
+		margin-top: 10px;
+		font-size: 24px;
+		color: #fff;
+		padding: 8px 80px;
+		background-color: #000;
+
+		&:hover {
+			border: 2px solid #fff;
+			transform: scale(1.1);
+			transition: .5s;
+			box-shadow:
+			    inset 0 0 60px #5F5F5F,
+			    inset 20px 0 80px #4134D3,
+			    inset -20px 0 80px #0ff,
+			    inset 20px 0 300px #4134D3,
+			    inset -20px 0 300px #0ff,
+			    0 0 50px #4134D3,
+			    // -10px 0 80px #4134D3,
+			    // 10px 0 80px #0ff;
+		}
+
+		&:active {
+			transform: scale(1.0);
+		}
+	}
+
+}
+
+// Delete File Modal
+
+.deleteFileBody {
+	border: 1px solid #4134D3; 
+	font-family: 'Jost', sans-serif;
+	background: url(../img/modalBg.png);
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+
+	& input {
+		text-align: center;
+		font-size: 18px;
+		color: #fff;
+		width: 500px;
+		padding: 10px 20px;
+		background-color: rgba(0, 0, 0, .8);
+		border: 2px solid #4134D3;
+		margin-bottom: 40px;
+
+		&:focus {
+			transition: .5s;
+			outline: none;
+			border: 2px dashed #03B9AE;
+			background-color: rgba(0, 0, 0, 1);
+		}
+
+		&::-webkit-input-placeholder {
+			color: rgba(255, 255, 255, .7);
+			text-align: center;
+		}
+
+		&:focus::-webkit-input-placeholder {
+			color: transparent
+		}
+	}
+
+	& button {
+		border: 2px solid #4134D3;
+		margin-top: 10px;
+		font-size: 24px;
+		color: #fff;
+		padding: 8px 80px;
+		background-color: #000;
+
+		&:hover {
+			border: 2px solid #fff;
+			transform: scale(1.1);
+			transition: .5s;
+			box-shadow:
+			    inset 0 0 60px #5F5F5F,
+			    inset 20px 0 80px #4134D3,
+			    inset -20px 0 80px #0ff,
+			    inset 20px 0 300px #4134D3,
+			    inset -20px 0 300px #0ff,
+			    0 0 50px #4134D3,
+			    // -10px 0 80px #4134D3,
+			    // 10px 0 80px #0ff;
+		}
+
+		&:active {
+			transform: scale(1.0);
+		}
+	}
+
+}
+
+
+// Number Search Modal
+
+.numberSearchBody {
+	border: 1px solid #4134D3; 
+	font-family: 'Jost', sans-serif;
+	background: url(../img/modalBg.png);
+	background-size: cover;
+	text-align: center;
+	color: #fff;
+
+	& input {
+		text-align: center;
+		font-size: 18px;
+		color: #fff;
+		width: 500px;
+		padding: 10px 20px;
+		background-color: rgba(0, 0, 0, .8);
+		border: 2px solid #4134D3;
+		margin-bottom: 40px;
+
+		&:focus {
+			transition: .5s;
+			outline: none;
+			border: 2px dashed #03B9AE;
+			background-color: rgba(0, 0, 0, 1);
+		}
+
+		&::-webkit-input-placeholder {
+			color: rgba(255, 255, 255, .7);
+			text-align: center;
+		}
+
+		&:focus::-webkit-input-placeholder {
+
+			color: transparent
+
+		}
+	}
+
+	& button {
+		margin-top: 5px;
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #fff;
+		padding: 8px 80px;
+		border: 2px solid #4134D3;
+		background-color: #000;
+
+		&:hover {
+			border: 2px solid #fff;
+			transform: scale(1.1);
+			transition: .5s;
+			box-shadow:
+			    inset 0 0 60px #5F5F5F,
+			    inset 20px 0 80px #4134D3,
+			    inset -20px 0 80px #0ff,
+			    inset 20px 0 300px #4134D3,
+			    inset -20px 0 300px #0ff,
+			    0 0 50px #4134D3,
+			    // -10px 0 80px #4134D3,
+			    // 10px 0 80px #0ff;
+		}
+
+		&:active {
+			transform: scale(1.0);
+		}
+	}
+}

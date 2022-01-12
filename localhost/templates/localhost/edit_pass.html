@@ -1,0 +1,28 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+    {%  if request.user.is_authenticated and request.user.pk == person.usercontainer.pk or request.user.level == 0 %}
+    <h1 class="tit">{{ title }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <table>
+                    <tr>
+                        <label class="text">Введите Url</label><br>
+                        <p><input class="form-label" type="text" name="url" value="{{person.url}}" /></p>
+                        <label class="text">Название</label><br>
+                        <p><input class="form-label" type="text" name="name" value="{{person.name}}" /></p>
+                        <label class="text">Пароль</label><br>
+                        <p><input class="form-label" type="password" name="password" value="{{person.password}}" /></p>
+                        
+                    </tr>
+                </table>
+                <button class="btn btn-outline-dark btn-sm" type="submit">Сохранить</button>
+            </div>
+        </div>
+        
+        
+    </form>
+    {% endif %}
+{% endblock content %}

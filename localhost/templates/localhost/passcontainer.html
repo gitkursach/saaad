@@ -1,0 +1,62 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated and request.user.is_password == True  %}
+<div class="row align-items-center">
+    <div class="col text-center">
+        <div>
+        <h1 class="tit">{{ title }}</h1>
+        <form action = "{% url 'passcontainer' %}" method="post" enctype = "multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        {% for f in form %}
+        <p><label class="form-label text" for = "{{ f.id_for_label }}">{{ f.label }}:</label><br>{{ f }} </p>
+        <div class ="form-error"> {{ f.errors }}</div>
+        {% endfor %}
+
+        <button class="btn btn-outline-dark btn-md" type="submit">Добавить</button></div>
+        </form>
+    </div>
+</div>
+</div>
+    <div class="row align-items-center">
+        <div class="col text-center">
+            {% if passc.count > 0 %}
+            <h2 class="chtitle">Список корпоративных паролей</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead><th>Login</th><th>Название</th><th>URL</th><th>Пароль</th><th>Время создания</th><th>Время обновления</th><th></th></thead>
+                    {% for p in passc %}
+                    {% if request.user.level == 0 and p.usercontainer.tree_id == request.user.tree_id %}
+                    <tr>
+                        <td>{{ p.usercontainer.username }}</td>
+                        <td><a class="link" href ="https://{{ p.url }}">{{ p.name }}</a></td>
+                        <td>{{ p.url }}</td>
+                        <td class="password">{{ p.password }}</td>
+                        <td>{{ p.time_create|date:"d.m.Y, H:i" }}</td>
+                        <td>{{ p.time_update|date:"d.m.Y, H:i" }}</td>
+                        <td><a class="workerLinks" href="editpass/{{p.id}}">Изменить</a> | <a class="workerLinks" href="delete/{{p.id}}">Удалить</a></td>
+                    </tr>
+                    {% else %}
+                    {% if request.user == p.usercontainer %}
+                    <tr>
+                        <td>{{ p.usercontainer.username }}</td>
+                        <td><a href ="https://{{ p.url }}">{{ p.name }}</a></td>
+                        <td>{{ p.url }}</td>
+                        <td class="password">{{ p.password }}</td>
+                        <td>{{ p.time_create|date:"d.m.Y, H:i" }}</td>
+                        <td>{{ p.time_update|date:"d.m.Y, H:i" }}</td>
+                        <td><a class="workerLinks" href="editpass/{{p.id}}">Изменить</a> | <a class="workerLinks" href="delete/{{p.id}}">Удалить</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+    {%  if request.user.is_authenticated and request.user.pk == person.user_client.pk %}
+    <h1>{{ title }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row align-items-center">
+            <div class="col text-center">
+                <table>
+                    <tr>
+                        <label class="text">Фамилия</label><br>
+                        <p><input class="form-label" type="text" name="last_name" value="{{person.last_name}}" /></p>
+                        <label class="text">Имя</label><br>
+                        <p><input class="form-label" type="text" name="first_name" value="{{person.first_name}}" /></p>
+                        <label class="text">Год рождения</label><br>
+                        <p><input class="form-label" type="date" name="year" value="{{person.year}}" /></p>
+                        <label class="text">н.Телефона</label><br>
+                        <p><input class="form-label" type="tel" name="phone" value="{{person.phone}}" /></p>
+                    </tr>
+                </table>
+                <button class="btn btn-outline-dark btn-sm" type="submit">Сохранить</button>
+
+            </div>
+        </div>
+        
+    </form>
+    {% endif %}
+{% endblock content %}

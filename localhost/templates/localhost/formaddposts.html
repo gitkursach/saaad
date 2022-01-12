@@ -1,0 +1,72 @@
+{% extends 'localhost/base.html' %}
+
+{% block content %}
+     {% if request.user.is_authenticated and request.user.is_workers == True %}
+
+<div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
+    <h3>Добавить должность</h3>
+    <div class="row">
+        <div class="col-sm">
+            <form action = "{% url 'addposts' %}" method="post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+            
+                    <p><label class="form-label text authText" for = "{{ f.id_for_label }}">{{ f.label }}:</label>
+                    <p>{{ f }} </p>
+                    <div class ="form-error"> {{ f.errors }}</div>
+
+                    {% endfor %}
+                    <button class="btn btn-outline-dark btn-md" type="submit">Добавить</button>
+            </form>
+            <a href="{% url 'adduser' %}"><button class="btn btn-outline-dark btn-md" type="submit">Назад</button></a>
+        </div>
+    </div>
+    <h2 class="tit textAli">Должности</h2>   
+    <div class="row">
+        <div class="col-sm">
+            {% if request.user.tree_id == request.user.parent.tree_id or requst.user.parent == None %}
+            <table>
+            {% for post in posts %}
+            {#{% if request.user.is_authenticated and request.user.is_clients == True %}#}
+            <tr>
+              <td class="textAliTd authText"> - {{ post.name}}</td>
+            </tr>
+            {#{% endif %}#}
+            {% endfor %}
+            </table>
+            </div>
+    </div>
+</div>
+<!-- 
+<h1 class="tit">{{ title }}</h1> -->
+
+<!-- <div class="row align-items-center">
+    <div class="col text-center">
+        <form action = "{% url 'addposts' %}" method="post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+            <p><label class="form-label text" for = "{{ f.id_for_label }}">{{ f.label }}:</label><br>
+            {{ f }} </p>
+            <div class ="form-error"> {{ f.errors }}</div>
+            {% endfor %}
+
+            <button class="btn btn-outline-dark btn-md" type="submit">Добавить</button>
+            
+        </form>
+            <a href="{% url 'adduser' %}"><button class="btn btn-outline-dark btn-md" type="submit">Назад</button></a>
+    </div>
+</div> -->
+        
+<!--     </div>
+</div>
+         --> 
+ 
+             {% endif %}
+    {% else %}
+
+    {% endif %}
+{% endblock %}
