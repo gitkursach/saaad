@@ -2,7 +2,6 @@
 
 {% block content %}
  {% if request.user.is_authenticated and request.user.is_workers == True %}
-    {% if usersdata.count > 0 %}
     <!-- <div class="row align-items-center">
         <div class="col text-center">
             <h2 class="htitle">Список действующих сотрудников</h2>
@@ -24,8 +23,8 @@
          <p>
              Вариант №9.    Реализовать поиск всех пользователей, у которых имеются файлы в определенном диапазоне дат загрузки файлов;</p>
          <p> от - до</p>
-           <p> <input id = "first" type="date" name="search_size_min"> -
-               <input id = "second" type="date" name="search_size_max"></p>
+           <p> <input id = "first" type="date" name="search_date_min"> -
+               <input id = "second" type="date" name="search_date_max"></p>
               <button>Найти</button>
          </p>
      </form>
@@ -35,7 +34,10 @@
 
 <div class="row controls align-items-center">
             <div class="col-sm-4" data-aos="fade-right" data-aos-duration="1000">
+                {% if request.user.username == 'Гость' %}
+                        {% else %}
                 <a href="{% url 'adduser' %}"><button class="printAll" type="button">Добавить сотрудника</button></a>
+                {% endif %}
             </div>
             <div class="col-sm-4" data-aos="fade-right" data-aos-duration="1000">
                 <a href="{% url 'output' %}"><button class="printAll" type="button">Задания по вариантам</button></a>
@@ -67,10 +69,11 @@
                         <th>Закреплен за</th>
                         <th></th>       
             </thead>
-            {% if request.user.is_workers == True and request.user.tree_id == request.user.parent.tree_id or request.user.level == 0 %}
+            
 
             {% for userdata in usersdata %}
-            {% if  userdata.tree_id == request.user.tree_id  %}
+            {% if userdata.username == 'Гость'%}
+            {% else %}
             <tbody>
                 <tr class="table-dark">
                     <th>{{ userdata.username}}</th>
@@ -87,8 +90,10 @@
                     <td>{{ userdata.time_create|date:"d.m.Y, H:i" }}</td>
                     <td>{{ userdata.time_update|date:"d.m.Y, H:i" }}</td>
                     <td>{{ userdata.last_login|date:"d.m.Y, H:i" }}</td>
-                    {% if  userdata.parent == None %}<th>Создатель отдела</th>{% else %}<th>{{ userdata.parent}}</th> {% endif %}
-                    <td>{% if request.user.level == 0 or userdata.parent.level >= request.user.pk or request.user.level <= userdata.parent.level or request.user.pk == userdata.pk %}<a class="workerLinks typeButton" href="edit-workers/{{userdata.id}}">Изменить</a> {% if request.user.pk != userdata.pk %}<a class="workerLinks typeButton" href="delete/{{userdata.id}}">Удалить</a> {% endif %}{% endif %}</td>
+                    {% if  userdata.parent == None %}<th>Создатель отдела</th>{% else %}<th>{{ userdata.parent}}</th> {% endif %} 
+                    {%  if request.user.username == 'Гость' %}
+                    {% else %}
+                    <td>{% if request.user.level == 0 or userdata.parent.level >= request.user.pk or request.user.level <= userdata.parent.level or request.user.pk == userdata.pk %}<a class="workerLinks typeButton" href="edit-workers/{{userdata.id}}">Изменить</a> {% if request.user.pk != userdata.pk %}<a class="workerLinks typeButton" href="delete/{{userdata.id}}">Удалить</a> {% endif %}{% endif %}</td> {% endif %}
                 </tr>
                     </tbody>
                     {% endif %}
@@ -136,13 +141,9 @@
 
 
 
-        {% endif %}
         {% else %}
 
         {% endif %}
-     {% else %}
-    <p>У вас нет доступа к сотрудникам :(</p>
-    {% endif %}
 
 {% endblock %}
 

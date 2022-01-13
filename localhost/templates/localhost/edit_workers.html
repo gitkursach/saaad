@@ -1,6 +1,8 @@
 {% extends 'localhost/base.html' %}
 
 {% block content %}
+{% if request.user.username == 'Гость' %}
+                        {% else %}
     {%  if request.user.is_authenticated  %}
     {%  if request.user.level == 0 or person.parent.level >= request.user.pk or request.user.level <= person.parent.level or request.user.pk == person.pk %}
     <div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
@@ -53,5 +55,6 @@
       </div>
     </div>
             {% endif %}
+{% endif %}
 {% endif %}
 {% endblock content %}

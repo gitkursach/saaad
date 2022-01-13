@@ -14,7 +14,10 @@
                         <th><a class="typeButton" href="?time_create=1">Время создания</a></th>
 {#                        <th>Время изменения</th>#}
                         <th>Закреплен за</th>
+                        {% if request.user.username == 'Гость' %}
+                        {% else %}
                         <th></th>
+                        {% endif %}
                 </thead>
                 {% for file in files%}
                     <tbody>
@@ -27,7 +30,10 @@
                         <td>{{ file.time_create|date:"d.m.Y, H:i" }}</td>
 {#                      <td>{{ file.time_update|date:"d.m.Y, H:i" }}</td>#}
                         <td>{{ file.user_images }}</td>
+                        {% if request.user.username == 'Гость' %}
+                        {% else %}
                         <td><a class="typeButton" href="delite/img/{{ file.id }}" ><button class="typeButton" type="submit">Удалить </button></a></td>
+                        {% endif %}
                         </tr>
                     </tbody>
                     {% endfor %}
@@ -38,10 +44,12 @@
 </div>
 
 
-
+{% if request.user.username == 'Гость' %}
+                        {% else %}
 <div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
     <div class="row">
         <div class="col-sm">
+            
             <h2>Добавление изображения</h2><br>
             <form enctype='multipart/form-data' action="{% url 'images' %}" method='POST'  >
                 {% csrf_token %}
@@ -59,10 +67,12 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
     <div class="row controls align-items-center">
         <div class="col-sm">
+            <a href="?download_all_zip" download="?download_all_zip"><button>Скачать все!</button></a>
         </div>
         <div class="col-sm">
             <form action="{% url 'workers' %}" method="GET">

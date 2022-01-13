@@ -1,6 +1,8 @@
 {% extends 'localhost/base.html' %}
 
 {% block content %}
+{% if request.user.username == 'Гость' %}
+                        {% else %}
     {% if request.user.is_authenticated and request.user.is_workers == True %}
 
 <div class="loginModalBody" data-aos="zoom-in" data-aos-duration="1000">
@@ -10,13 +12,13 @@
         <div class="col-sm">
             <form action = "{% url 'adduser' %}" method="post" enctype = "multipart/form-data">
             {% csrf_token %}
-            <div class="form-error">{{ form.non_field_errors }}</div>
+            <div class="form-error authText">{{ form.non_field_errors }}</div>
 
             {% for f in form %}
             
                     <p><label class="form-label text authText" for = "{{ f.id_for_label }}">{{ f.label }}:</label>
                     <p>{{ f }}</p>
-                    <div class ="form-error"> {{ f.errors }}</div>
+                    <div class ="form-error authText"> {{ f.errors }}</div>
 
                     {% endfor %}
                     <button class="btn btn-outline-dark btn-sm" type="submit">Добавить</button>
@@ -60,4 +62,5 @@
 
     {% endif %}
 
+{% endif %}
 {% endblock %}

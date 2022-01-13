@@ -17,7 +17,7 @@ from django.views.generic import ListView, DetailView, CreateView, FormView, Del
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
-
+from datetime import date
 
 # from .forms import *
 from .forms import *
@@ -215,7 +215,7 @@ class images(DataMixin, View):
         user_id = self.request.user
         files = Images.objects.filter(user_images_id=user_id)
 
-        if self.request.user.level == 0:
+        if self.request.user.level == 0 or request.user.username == 'Гость':
             print('good')
             chief = UserData.objects.get(tree_id=self.request.user.tree_id, level=0)
             print("get", chief)
@@ -578,7 +578,47 @@ def download_all(request, files):
 
 class workers(DataMixin, View):
     def get(self, request):
-        usersdata = UserData.objects.all()
+        tree_id = self.request.user.tree_id
+        usersdata = UserData.objects.filter(tree_id=tree_id)
+        good_list = []
+        no_result = True
+
+        if 'search_date_min' in request.GET:
+            search_date_min = request.GET.get('search_date_min')
+            if 'search_date_max' in request.GET:
+                search_date_max = request.GET.get('search_date_max')
+                if search_date_min <= search_date_max:
+                    print(search_date_max, search_date_min)
+                    date_max = search_date_max.split('-')
+                    day_max = date_max[2]
+                    month_max = date_max[1]
+                    year_max = date_max[0]
+                    date_min = search_date_min.split('-')
+                    day_min = date_min[2]
+                    month_min = date_min[1]
+                    year_min = date_min[0]
+                    b_list = []
+                    print(day_min, month_min, day_max, month_max) #int(year_max), int(month_max), int(day_max)  int(year_min), int(month_min), int(day_min)
+                    for data in usersdata:
+                        images = Images.objects.filter(user_images=data.pk, time_create__gte=date(int(year_min), int(month_min), int(day_min)), time_create__lte=date(int(year_max), int(month_max), int(day_max)+1))
+                        for image in images:
+                            print(image)
+                            good_dates = usersdata.filter(pk=image.user_images.pk)
+                            for good_date in good_dates:
+                                b_list.append(good_date.pk)
+                    if len(b_list) == 0:
+                        usersdata = ''
+                    else:
+                        if len(b_list) == 1:
+                            usersdata = usersdata.filter(pk=b_list[0])
+                        else:
+                            good_lists = [item for item in set(b_list) if b_list.count(item) > 1]
+                            print(good_lists)
+                            for good_list in good_lists:
+                                print('qweqeqweq')
+                                temp = UserData.objects.filter(pk=good_list)
+                                usersdata = usersdata| temp
+        print("1223213 ", usersdata)
         if 'search_login' in request.GET:
             search_login = request.GET.get('search_login')
             usersdata = UserData.objects.filter(username__icontains=search_login)
@@ -593,24 +633,15 @@ class workers(DataMixin, View):
             usersdata = UserData.objects.filter(patronymic__icontains=patronymic)
         if 'search_phone' in request.GET:
             search_phone = request.GET.get('search_phone')
-            print(search_phone)
             usersdata = UserData.objects.filter(phone__icontains=search_phone)
-        if 'search_date_min' in request.GET:
-            search_date_min = request.GET.get('search_date_min')
-            print(search_date_min)
-            if 'search_date_max' in request.GET:
-                search_date_max = request.GET.get('search_date_max')
-                if search_date_min <= search_date_max:
-                    print(search_date_max, search_date_min)
-                    images = Images.objects.filter(time_create__range=[search_date_min, search_date_max])
-                    print(images)
-                    for image in images:
-                        usersdata = UserData.objects.filter(pk=image.user_images.pk)
+
         context = {
             'title': "Обновить данные сотрудников",
             'menu': menu,
+            'no_result': no_result,
             'leftmenu': LeftMenu,
             "usersdata": usersdata,
+
         }
         return render(request, 'localhost/workers.html', context=context)
     # paginate_by = 2  # страници
@@ -784,7 +815,7 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('workers')
 
 def visitor(request):
     users = UserData.objects.all()

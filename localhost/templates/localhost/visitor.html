@@ -13,7 +13,7 @@
   {% for user in users %}
       {% if user.department %}
 
-        <p>  {{ user.department }}
+        <p>  <span class="authText">{{ user.department }}</span><br>
      <input type="radio" name="department" value="{{ user.id }}">
      </p>
       {% endif %}
@@ -23,7 +23,7 @@
 <br>
 <br><br>
 
-<a href="{% url 'register' %}"><button type="submit" class="btn btn-outline-dark btn-sm">Регистрация</button></a>
+<a href="{% url 'workers' %}"><button type="submit" class="btn btn-outline-dark btn-sm">Регистрация</button></a>
         </form>
 </div>
     </div>
